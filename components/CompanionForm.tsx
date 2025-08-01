@@ -178,6 +178,8 @@ const CompanionForm = () => {
               <FormControl>
                 <Input 
                     type='number'
+                    min={1}
+                    max={60}
                     placeholder="15" 
                     {...field} 
                     className='input'
