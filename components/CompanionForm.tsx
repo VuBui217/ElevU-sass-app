@@ -17,7 +17,6 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
 import { subjects } from "@/constants"
 import { Textarea } from "./ui/textarea"
-import { create } from "domain"
 import { createCompanion } from "@/lib/actions/companion.action"
 import { redirect } from "next/navigation"
 
@@ -50,7 +49,7 @@ const CompanionForm = () => {
     const companion = await createCompanion(values);
 
     if (companion){
-      redirect('/companions/${companion.id}');
+      redirect('/companions/${companion.id}') // Redirect to the newly created companion's page;
     } else {
       console.log('Failed to create companion');
       redirect('/') // Redirect to home or an error page
