@@ -25,12 +25,15 @@ const SearchInput = () => {
         // If searchQuery is not empty, set the 'topic' param.
         // If searchQuery is empty, remove the 'topic' param to reset the URL.
         const params = new URLSearchParams(searchParams.toString());
-        if (searchQuery) {
+        const delayDebounce = setTimeout(() => {
+            if (searchQuery) {
             params.set('topic', searchQuery);
         } else {
             params.delete('topic');
         }
-        router.push(`${pathname}${params.toString() ? `?${params.toString()}` : ''}`);
+        router.push(`${pathname}${params.toString() ? `?${params.toString()}` : ''}`, { scroll: false });
+        }, 500) // Debounce the search input to avoid too many requests
+        
     }, [searchQuery, router, searchParams, pathname]);
 
   return (
