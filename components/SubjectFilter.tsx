@@ -16,13 +16,15 @@ const SubjectFilter = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const query = searchParams.get("subject") || "";
-
-    const [subject, setSubject] = useState(query);
-
+    // State to manage the selected subject
+    const [subject, setSubject] = useState(() => searchParams.get("subject") || "all");
+    // Effect to update the URL when the subject changes
     useEffect(() => {
-        // Update the URL when the subject changes.
-        // If "all" is selected, remove the "subject" param from the URL.
-        // Otherwise, set the "subject" param to the selected value.
+        // Only push if the param actually changed
+        const current = searchParams.get("subject") || "all";
+        // Only push if the param actually changed
+        if (current === subject) return;
+
         const params = new URLSearchParams(searchParams.toString());
         if (subject === "all") {
             params.delete("subject");

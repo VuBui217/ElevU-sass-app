@@ -2,13 +2,13 @@
 import { auth } from "@clerk/nextjs/server";
 import { createSupabaseClient } from "../supabase";
 
-export const createCompanion = async (FormData: CreateCompanion) => {
+export const createCompanion = async (formData: CreateCompanion) => {
     const { userId: author } = await auth();
     const supabase = createSupabaseClient();
 
     const {data, error} = await supabase
         .from('companions')
-        .insert({...FormData, author})
+        .insert({...formData, author})
         .select();
 
         if (error || !data) {
@@ -18,13 +18,16 @@ export const createCompanion = async (FormData: CreateCompanion) => {
     return data[0];
 }
 
-export const getAllCompanions = async ({limit = 10, page = 1, subject, topic} : GetAllCompanions) => {
+export const getAllCompanions = async ({limit = 10, page = 1, subject, topic, author}: GetAllCompanions & { author?: string }) => {
     const supabase = createSupabaseClient();
 
     let query = supabase
         .from('companions')
         .select();
 
+    if (author) {
+        query = query.eq('author', author);
+    }
 
     if (subject && topic) {
         query = query.ilike('subject', `%${subject}%`)
@@ -44,4 +47,19 @@ export const getAllCompanions = async ({limit = 10, page = 1, subject, topic} : 
     }
 
     return companions;
+}
+
+export const getCompanion = async (id: string) => {
+    const supabase = createSupabaseClient();
+
+    const {data, error} = await supabase
+        .from('companions') // Fetching companion by ID
+        .select() // Select all fields
+        .eq('id', id); // Filter by ID
+
+    if (error || !data) {
+        throw new Error(error?.message || 'Companion not found');
+    }
+
+    return data[0]; // Return the first companion found
 }

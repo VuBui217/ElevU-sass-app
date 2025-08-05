@@ -16,24 +16,22 @@ const SearchInput = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const query = searchParams.get('topic') || '';
-
-    const [searchQuery, setSearchQuery] = useState('');
+    // State to manage the search query
+    const [searchQuery, setSearchQuery] = useState(() => searchParams.get('topic') || '');
     
-
+    // Effect to update the URL when the search query changes
     useEffect(() => {
-        // Update the URL query string based on the search input.
-        // If searchQuery is not empty, set the 'topic' param.
-        // If searchQuery is empty, remove the 'topic' param to reset the URL.
+        const current = searchParams.get('topic') || '';
+        // Only push if the param actually changed
+        if (current === searchQuery) return;
+
         const params = new URLSearchParams(searchParams.toString());
-        const delayDebounce = setTimeout(() => {
-            if (searchQuery) {
+        if (searchQuery) {
             params.set('topic', searchQuery);
         } else {
             params.delete('topic');
         }
         router.push(`${pathname}${params.toString() ? `?${params.toString()}` : ''}`, { scroll: false });
-        }, 500) // Debounce the search input to avoid too many requests
-        
     }, [searchQuery, router, searchParams, pathname]);
 
   return (
