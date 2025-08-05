@@ -63,3 +63,53 @@ export const getCompanion = async (id: string) => {
 
     return data[0]; // Return the first companion found
 }
+
+// Add a companion to the session history for the current user
+export const addToSessionHistory = async (companionId: string) => {
+    const {userId} = await auth();
+    const supabase = createSupabaseClient();
+
+    const {data, error} = await supabase.from('session_history')
+    .insert({
+        companion_id: companionId,
+        user_id: userId,
+    })
+
+    if (error) throw new Error(error.message || 'Failed to add to session history');
+    return data;
+} 
+
+// Fetch recent sessions for a user, limited to the last 10 by default
+export const getRecentSessions = async (limit = 10) => {
+    const supabase = createSupabaseClient();
+
+    const {data, error} = await supabase
+        .from('session_history')
+        .select('companions: companion_id (*)') // Fetch companions related to session history
+        .order('created_at', { ascending: false })
+        .limit(limit);
+
+    if (error) {
+        throw new Error(error.message || 'Failed to fetch recent sessions');
+    }
+
+    return data.map(({ companions }) => companions)
+}
+
+// Fetch user sessions by user ID, limited to the last 10 by default
+export const getUserSessions = async (userId: string, limit = 10) => {
+    const supabase = createSupabaseClient();
+
+    const {data, error} = await supabase
+        .from('session_history')
+        .select('companions: companion_id (*)') // Fetch companions related to session history
+        .eq('user_id', userId) // Filter by user ID
+        .order('created_at', { ascending: false })
+        .limit(limit);
+
+    if (error) {
+        throw new Error(error.message || 'Failed to fetch user sessions');
+    }
+
+    return data.map(({ companions }) => companions)
+}
