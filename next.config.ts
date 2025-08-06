@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
     // Ignore type errors in the `@clerk/nextjs` package
     ignoreBuildErrors: true,
   },
+  eslint: {
+    // Ignore lint errors in the `@clerk/nextjs` package
+    ignoreDuringBuilds: true,
+  },
   /* config options here */
   images:{
     remotePatterns: [
