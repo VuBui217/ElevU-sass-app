@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   typescript:{
     // Ignore type errors in the `@clerk/nextjs` package
     ignoreBuildErrors: true,
-  }
+  },
   /* config options here */
   images:{
     remotePatterns: [
