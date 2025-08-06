@@ -2,7 +2,7 @@ import { PricingTable } from "@clerk/nextjs"
 
 const Subscription = () => {
   return (
-    <div>
+    <main>
       <h1 className="text-2xl font-bold mb-4">Subscription Plans</h1>
       <PricingTable
         appearance={{
@@ -12,7 +12,7 @@ const Subscription = () => {
           },
         }}
       />
-    </div>
+    </main>
   )
 }
 

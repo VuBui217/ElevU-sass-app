@@ -113,3 +113,49 @@ export const getUserSessions = async (userId: string, limit = 10) => {
 
     return data.map(({ companions }) => companions)
 }
+// Fetch all companions for a specific user
+// This function retrieves all companions created by a specific user
+export const getUserCompanions = async (userId: string) => {
+    const supabase = createSupabaseClient();
+
+    const {data, error} = await supabase
+        .from('companions')
+        .select() // Fetch all companions
+        .eq('author', userId) 
+
+    if (error) {
+        throw new Error(error.message || 'Failed to fetch user companions');
+    }
+
+    return data
+}
+
+export const newComapanionPermissions = async () => {
+    const {userId, has} = await auth();
+    const supabase = createSupabaseClient();
+
+    let limit = 0;
+
+    if (has({plan: 'premium'})) {
+        return true;
+    } else if (has({feature: '3_companion_limit'})) {
+        limit = 3;
+    } else if (has({feature: '10_companion_limit'})) {
+        limit = 10;
+    }
+    
+    const {data, error} = await supabase
+        .from('companions')
+        .select('id',{ count: 'exact'})
+        .eq('author', userId);
+    if (error) {
+        throw new Error(error.message);
+    }
+    const companionCount = data?.length;
+
+    if (companionCount >= limit) {
+        return false;
+    }  else {
+        return true;
+    }
+}
