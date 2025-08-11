@@ -15,7 +15,6 @@ import { useSearchParams } from "next/navigation";
 const SubjectFilter = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const query = searchParams.get("subject") || "";
     // State to manage the selected subject
     const [subject, setSubject] = useState(() => searchParams.get("subject") || "all");
     // Effect to update the URL when the subject changes
@@ -32,7 +31,7 @@ const SubjectFilter = () => {
             params.set("subject", subject);
         }
         router.push(`?${params.toString()}`, { scroll: false });
-    }, [subject]);
+    }, [subject, router, searchParams]);
 
     return (
         <Select onValueChange={setSubject} value={subject}>

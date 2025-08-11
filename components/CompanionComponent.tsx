@@ -2,7 +2,7 @@
 import { cn, configureAssistant, getSubjectColor } from "@/lib/utils"
 import {vapi} from "@/lib/vapi.sdk";
 import Image from "next/image";
-import { use, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Lottie, { LottieRefCurrentProps } from "lottie-react"; 
 import soundwaves from '@/constants/soundwaves.json';
 import { addToSessionHistory } from "@/lib/actions/companion.action";
@@ -72,7 +72,7 @@ const CompanionComponent = ({companionId, subject, topic, name, userName, userIm
             vapi.off('speed-start', onSpeedStart);
             vapi.off('speech-end', onSpeedEnd);
         }
-    },[]);
+    },[companionId]);
 
     // Function to toggle the microphone
     const toggleMicrophone = () => {
@@ -91,7 +91,7 @@ const CompanionComponent = ({companionId, subject, topic, name, userName, userIm
             serverMessages: [],
         }
 
-        // @ts-expect-error
+        // @ts-expect-error - Vapi type definition doesn't include assistantOverrides parameter
         vapi.start(configureAssistant(voice, style), assistantOverrides)
     }
 

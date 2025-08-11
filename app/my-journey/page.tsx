@@ -7,10 +7,11 @@ import {
 } from "@/components/ui/accordion"
 import { getUserCompanions, getUserSessions } from "@/lib/actions/companion.action"
 import { currentUser } from "@clerk/nextjs/server"
-import { Session } from "inspector/promises"
 import Image from "next/image"
 import { redirect } from "next/navigation"
 import React from 'react'
+
+export const dynamic = "force-dynamic";
 
 const Profile = async() => {
   const user = await currentUser();
