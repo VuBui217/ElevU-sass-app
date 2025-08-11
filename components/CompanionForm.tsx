@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,7 +25,7 @@ const formSchema = z.object({
     topic: z.string().min(1, { message:'Topic is required. '}),
     voice: z.string().min(1, { message:'Voice is required. '}),
     style: z.string().min(1, { message:'Style is required. '}),
-    duration: z.coerce.number().min(1, {message:'Duration is required.'}),
+    duration: z.number().min(1, {message:'Duration is required.'}),
 })
 
 const CompanionForm = () => {
