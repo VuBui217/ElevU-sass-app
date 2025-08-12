@@ -52,8 +52,8 @@ const CompanionComponent = ({companionId, subject, topic, name, userName, userIm
                 setMessages((prev)=>[newMessage, ...prev]);
             }
         }
-        const onSpeedStart = () => setIsSpeaking(true);
-        const onSpeedEnd = () => setIsSpeaking(false);
+        const onSpeechStart = () => setIsSpeaking(true);
+        const onSpeechEnd = () => setIsSpeaking(false);
         const onError = (error: Error) => console.log('Errpr', error);
         
         
@@ -61,16 +61,16 @@ const CompanionComponent = ({companionId, subject, topic, name, userName, userIm
         vapi.on('call-end', onCallEnd);
         vapi.on('message', onMessage);
         vapi.on('error', onError);
-        vapi.on('speech-start', onSpeedStart);
-        vapi.on('speech-end', onSpeedEnd);
+        vapi.on('speech-start', onSpeechStart);
+        vapi.on('speech-end', onSpeechEnd);
         // Cleanup event listeners on component unmount
         return () => {
             vapi.off('call-start', onCallStart);
             vapi.off('call-end', onCallEnd);
             vapi.off('message', onMessage);
             vapi.off('error', onError);
-            vapi.off('speed-start', onSpeedStart);
-            vapi.off('speech-end', onSpeedEnd);
+            vapi.off('speech-start', onSpeechStart);
+            vapi.off('speech-end', onSpeechEnd);
         }
     },[]);
 
@@ -107,7 +107,7 @@ const CompanionComponent = ({companionId, subject, topic, name, userName, userIm
                     <div className={cn(
                         'absolute transition-opacity duration-1000',
                         callStatus === CallStatus.FINISHED || callStatus === CallStatus.INACTIVE ? 'opacity-1001' : 'opacity-0',
-                        callStatus === CallStatus.CONNECTING && 'opacity-100 animate-ppulse'             
+                        callStatus === CallStatus.CONNECTING && 'opacity-100 animate-pulse'             
                         )
                     }>
                         <Image
