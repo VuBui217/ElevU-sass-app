@@ -22,7 +22,7 @@ const CompanionCard = ({id, name, topic, subject, duration, color} : CompanionCa
             </button>
         </div>
 
-        <h2 className="text-2xl font bold">
+        <h2 className="text-2xl font-bold">
             {name}
         </h2>
         <p className="text-sm">
