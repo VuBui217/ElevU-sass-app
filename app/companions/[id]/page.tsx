@@ -5,6 +5,8 @@ import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 interface ComapanionSessionPageProps {
   params: Promise<{id: string}>;
   
@@ -14,7 +16,7 @@ const CompanionSession = async ({params}: ComapanionSessionPageProps) => {
   const  companion = await getCompanion(id);
   const user = await currentUser();
   
-  const {name, subject, title, topic, duration} = companion;
+  const {name, subject, topic, duration} = companion;
 
   if (!user) redirect('/sign-in');
   if(!name)redirect('/companions');

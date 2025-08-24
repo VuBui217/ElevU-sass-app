@@ -2,20 +2,15 @@ import {withSentryConfig} from "@sentry/nextjs";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  typescript:{
-    // Ignore type errors in the `@clerk/nextjs` package
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    // Ignore lint errors in the `@clerk/nextjs` package
-    ignoreDuringBuilds: true,
-  },
   /* config options here */
   images:{
     remotePatterns: [
       { hostname: "img.clerk.com"}
     ]
-  }
+  },
+  // Disable static generation for builds with authentication
+  trailingSlash: false,
+  output: 'standalone'
 };
 
 export default withSentryConfig(nextConfig, {
@@ -27,6 +22,9 @@ project: "javascript-nextjs",
 
 // Only print logs for uploading source maps in CI
 silent: !process.env.CI,
+
+// Skip building if no auth token is provided
+authToken: process.env.SENTRY_AUTH_TOKEN,
 
 // For all available options, see:
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/

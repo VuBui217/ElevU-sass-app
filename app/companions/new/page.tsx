@@ -4,6 +4,9 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+
+export const dynamic = "force-dynamic";
+
 /**
  * This page to build a new companion
  * @returns 

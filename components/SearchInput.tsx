@@ -6,7 +6,7 @@
 
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 
 
@@ -15,7 +15,6 @@ const SearchInput = () => {
     const pathname = usePathname();
     const router = useRouter();
     const searchParams = useSearchParams();
-    const query = searchParams.get('topic') || '';
     // State to manage the search query
     const [searchQuery, setSearchQuery] = useState(() => searchParams.get('topic') || '');
     
